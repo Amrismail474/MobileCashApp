@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MobileCashApp</string>
+    <string name="onboarding_text_title_one">Experience total control of your money with Mobile Cash</string>
+    <string name="mobile_cash">MOBILE CASH</string>
+    <string name="mobile_cash_subtitle">Experience The Money Freedom</string>
+    <string name="onboardingText">Experience total control of your money with Mobile Cash.</string>
+
+    <string name="onboardingSubtitle">Join Mobile Cash now andexperience true money freedom with seamless transactions</string>
+    <string name="skip">Skip</string>
+</resources>
