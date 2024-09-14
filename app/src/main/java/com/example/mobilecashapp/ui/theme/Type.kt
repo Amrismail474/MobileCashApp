@@ -38,7 +38,9 @@ val Typography = Typography(
 
 val poppinsFontFamily = FontFamily(
     Font(R.font.poppins_semibold,FontWeight.SemiBold),
+    Font(R.font.poppins_medium,FontWeight.Medium)
 )
 val nunitosansFamily = FontFamily(
-    Font(R.font.nunitosans_regular,FontWeight.Normal)
+    Font(R.font.nunitosans_regular,FontWeight.Normal),
+    Font(R.font.nunitosans_semibold, FontWeight.SemiBold)
 )

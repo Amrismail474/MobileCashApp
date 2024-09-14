@@ -1,13 +1,10 @@
 package com.example.mobilecashapp.presentation
-
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,17 +13,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,17 +30,18 @@ import com.example.mobilecashapp.ui.theme.MobileCashAppTheme
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
 
 @Composable
-fun OnBoardingOneMain(){
-    Box(Modifier
-        .fillMaxSize()
-        .padding(16.dp)
-        .background(Color.White),
+fun OnBoardingThreeMain(){
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .background(Color.White),
         contentAlignment = Alignment.Center){
         Column (
         ){
-            OnBoardingOneImage()
-            OnBoardingCSectionTwo()
-            OnBoardingOneSectionThree()
+            OnBoardingThreeImage()
+            OnBoardingThreeSectionTwo()
+            OnBoardingThreeSectionThree()
         }
     }
 
@@ -57,7 +49,7 @@ fun OnBoardingOneMain(){
 
 
 @Composable
-fun OnBoardingOneImage(){
+fun OnBoardingThreeImage(){
     Box(modifier =
     Modifier
         .width(486.dp)
@@ -65,23 +57,24 @@ fun OnBoardingOneImage(){
         .offset(-30.dp, 30.dp),
         contentAlignment = Alignment.Center
     ){
-            Image(painter = painterResource(R.drawable.group_34212),
-                contentDescription = "onboardingimage",
-                Modifier.width(486.dp)
-                    .height(180.dp).padding(start = 80.dp))
+        Image(painter = painterResource(R.drawable.onboardingthreeimage),
+            contentDescription = null,
+            Modifier.width(486.dp)
+                .height(180.dp).padding(start = 80.dp))
 
     }
 }
 
 
 @Composable
-fun OnBoardingCSectionTwo(){
-    Box(Modifier
-        .padding(end=14.dp).offset(y=30.dp), contentAlignment = Alignment.Center){
-      Image(
+fun OnBoardingThreeSectionTwo(){
+    Box(
+        Modifier
+            .padding(end=14.dp).offset(y=30.dp), contentAlignment = Alignment.Center){
+        Image(
             painterResource(R.drawable.eclipse_circle),
             contentDescription = "Eclipse Circle",
-          alignment = Alignment.Center,modifier= Modifier.size(496.dp,496.dp)
+            alignment = Alignment.Center,modifier= Modifier.size(496.dp,496.dp)
 
         )
 
@@ -90,11 +83,11 @@ fun OnBoardingCSectionTwo(){
             verticalArrangement = Arrangement.Center,
         ){
             Text(
-                text = stringResource(R.string.onboardingText),
+                text = stringResource(R.string.onboardingthreeText),
                 fontSize = 23.04.sp,
                 modifier = Modifier.padding(16.dp),
                 fontWeight = FontWeight.SemiBold,
-               fontFamily = poppinsFontFamily,
+                fontFamily = poppinsFontFamily,
                 color = Color(0xFFDD2626),
                 textAlign = TextAlign.Left
             )
@@ -114,27 +107,27 @@ fun OnBoardingCSectionTwo(){
 }
 
 @Composable
-fun OnBoardingOneSectionThree(){
+fun OnBoardingThreeSectionThree(){
     Box(modifier = Modifier.padding(16.dp).fillMaxWidth()){
 
-            Box(
-                modifier = Modifier
-                    .size(72.dp)  // Adjust the size as per the design
-                    .align(Alignment.BottomStart)  // Align to bottom-left
-                    .offset(y = (-80).dp)
-            ){
-                Image(
-                    painterResource(R.drawable.circlewitharrow),
-                    contentDescription = "dn",
+        Box(
+            modifier = Modifier
+                .size(72.dp)  // Adjust the size as per the design
+                .align(Alignment.BottomStart)  // Align to bottom-left
+                .offset(y = (-80).dp)
+        ){
+            Image(
+                painterResource(R.drawable.circlewitharrow),
+                contentDescription = "dn",
 
 
-                    )
-                Image(
-                    painterResource(R.drawable.arrow),
-                    contentDescription = null,
-                    Modifier
-                        .padding(16.dp)
                 )
+            Image(
+                painterResource(R.drawable.arrow),
+                contentDescription = null,
+                Modifier
+                    .padding(16.dp)
+            )
 
 
             Text(
@@ -148,19 +141,17 @@ fun OnBoardingOneSectionThree(){
                     .align(Alignment.BottomEnd).offset(x = (280).dp)
 
 
-            )}
+            )
+        }
 
     }
 
 
 }
 
-
-
-
 @Composable
 @Preview
-fun Preview(){
+fun previewThree(){
     MobileCashAppTheme {
         Box(Modifier
             .fillMaxSize()
@@ -170,12 +161,10 @@ fun Preview(){
             Column (
                 modifier = Modifier.offset(y = 50.dp)
             ){
-                OnBoardingOneImage()
-                //OnBoardingTextOne()
-                OnBoardingCSectionTwo()
-                OnBoardingOneSectionThree()
+                OnBoardingThreeImage()
+                OnBoardingThreeSectionTwo()
+                OnBoardingThreeSectionThree()
             }
+
         }
-       
-    }
-}
+    }}

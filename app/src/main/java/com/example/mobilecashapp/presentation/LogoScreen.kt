@@ -51,7 +51,7 @@ import com.example.mobilecashapp.ui.theme.MobileCashAppTheme
 @Composable
 fun FrontPage(modifier: Modifier=Modifier){
     Box(contentAlignment = Alignment.Center, modifier =  modifier.fillMaxSize().background(Color.White)){
-        Row (modifier=modifier.fillMaxWidth().height(500.dp),
+        Row (modifier=modifier.fillMaxWidth().height(100.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
                 Image(
