@@ -1,5 +1,6 @@
 package com.example.mobilecashapp.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,15 +27,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,20 +51,20 @@ import com.example.mobilecashapp.R
 import com.example.mobilecashapp.ui.theme.MobileCashAppTheme
 import com.example.mobilecashapp.ui.theme.nunitosansFamily
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
-import kotlin.math.log
 
 @Composable
 fun Login(
     state: LoginUiState,
-    event:(LoginEvent)->Unit
-){
+    event: (LoginEvent) -> Unit
+) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF3F4F6))
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         LoginHeader()
         Spacer(Modifier.height(32.dp))
@@ -74,31 +72,37 @@ fun Login(
             state.loginSwitch,
             state.SignUpSwitch
         )
-        Spacer(Modifier.height(32.dp))
 
-        Loginemailandpassword(
-            state.email,
+        Spacer(Modifier.height(24.dp))
+
+        loginemailandpassword(
+            state.phoneNumber,
             state.password,
-            checked =state.checked){}
+            checked = state.checked,
+            onRememberPasswordClicked = state.onRememberPassword,
+            onValueChange = {}
+        )
     }
 
 }
 
 
 @Composable
-fun LoginHeader(modifier: Modifier=Modifier){
+fun LoginHeader(modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row (modifier= modifier
-            .fillMaxWidth()
-            .height(80.dp),
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(80.dp),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically){
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = painterResource(R.drawable.group),
                 contentDescription = "Mobile Cash",
-                modifier=Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp)
             )
 
 
@@ -108,7 +112,7 @@ fun LoginHeader(modifier: Modifier=Modifier){
                     color = colorResource(R.color.red),
                     fontSize = 22.sp, fontWeight = FontWeight.Bold,
 
-                )
+                    )
 
 
                 Text(
@@ -116,10 +120,11 @@ fun LoginHeader(modifier: Modifier=Modifier){
                     color = colorResource(R.color.ash), fontSize = 10.sp
                 )
             }
-    }
+        }
         Box(
             Modifier.padding(16.dp),
-            contentAlignment = Alignment.Center) {
+            contentAlignment = Alignment.Center
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -128,13 +133,12 @@ fun LoginHeader(modifier: Modifier=Modifier){
                     text = stringResource(R.string.LoginText),
                     Modifier
                         .offset(y = 3.dp)
-                        .fillMaxWidth()
-                    ,
+                        .fillMaxWidth(),
                     fontFamily = poppinsFontFamily,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    color = colorResource( R.color.Loginblack)
+                    color = colorResource(R.color.Loginblack)
                 )
                 Text(
                     text = stringResource(R.string.Loginsubtitle),
@@ -149,49 +153,61 @@ fun LoginHeader(modifier: Modifier=Modifier){
             }
 
         }
-}}
+    }
+}
 
 @Composable
-fun Loginemailandpassword(
-    email:String,
-    password:String,
-    checked : Boolean,
-    onValueChange:(LoginEvent)->Unit
-){
-        OutlinedTextField(
-            value = email,
-            onValueChange = {
-                onValueChange(LoginEvent.OnEmailChanged(it)) },
-            Modifier.width(350.dp).height(52.dp),
-            label = { Text(stringResource(R.string.enter_email)) },
-            shape = RoundedCornerShape(60.dp),
-            leadingIcon = {Icon(
+fun loginemailandpassword(
+    phoneNumber: String,
+    password: String,
+    checked: Boolean,
+    onValueChange: (LoginEvent) -> Unit,
+    onRememberPasswordClicked: Boolean
+) {
+    OutlinedTextField(
+        value = phoneNumber,
+        onValueChange = {
+            onValueChange(LoginEvent.OnEmailChanged(it))
+        },
+        Modifier
+            .width(350.dp)
+            .height(52.dp),
+        label = { Text(stringResource(R.string.enter_phone)) },
+        shape = RoundedCornerShape(60.dp),
+        leadingIcon = {
+            Icon(
                 painterResource(R.drawable.phone),
                 contentDescription = "Phone",
                 tint = colorResource(R.color.red)
-            )},
-            trailingIcon = {
-                Icon(
-                    painterResource(R.drawable.showandhide),
-                    contentDescription = "Show Email"
-                )
-            }
+            )
+        },
+        trailingIcon = {
+            Icon(
+                painterResource(R.drawable.showandhide),
+                contentDescription = "Show Email"
+            )
+        }
 
 
-        )
+    )
     Spacer(Modifier.height(16.dp))
     OutlinedTextField(
         value = password,
         onValueChange = {
-            onValueChange(LoginEvent.OnPasswordChanged(it)) },
-        Modifier.width(350.dp).height(52.dp),
+            onValueChange(LoginEvent.OnPasswordChanged(it))
+        },
+        Modifier
+            .width(350.dp)
+            .height(52.dp),
         label = { Text(stringResource(R.string.enter_password)) },
         shape = RoundedCornerShape(60.dp),
-        leadingIcon = {Icon(
-            painterResource(R.drawable.key),
-            contentDescription = "Password",
-            tint = colorResource(R.color.red)
-        )},
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.key),
+                contentDescription = "Password",
+                tint = colorResource(R.color.red)
+            )
+        },
         trailingIcon = {
             Icon(
                 painterResource(R.drawable.showandhide),
@@ -206,28 +222,31 @@ fun Loginemailandpassword(
     Row(
         Modifier.padding(16.dp),
         horizontalArrangement = Arrangement.Center
-    ){
+    ) {
 
-            Icon(
-               if(checked){
-                   painterResource(R.drawable.checkboxred)
-                          }else{
-                              painterResource(R.drawable.baseline_check_box_outline_blank_24)
-                          },
-                contentDescription = stringResource( R.string.checkbox),
-                Modifier.padding(top=4.dp),
-                tint = Color.Unspecified
+        Icon(
+            painter =
+            if (checked) {
+                painterResource(R.drawable.checkboxred)
+            } else {
+                painterResource(R.drawable.baseline_check_box_outline_blank_24)
+            },
+            contentDescription = stringResource(R.string.checkbox),
 
-            )
-            Spacer(Modifier.width(8.dp))
+            Modifier
+                .padding(top = 4.dp),
+            tint = Color.Unspecified
 
-            Text(
-                stringResource(R.string.remember_password),
-                fontSize = 11.11.sp,
-                fontFamily = nunitosansFamily,
-                fontWeight = FontWeight.SemiBold
+        )
+        Spacer(Modifier.width(8.dp))
 
-            )
+        Text(
+            stringResource(R.string.remember_password),
+            fontSize = 11.11.sp,
+            fontFamily = nunitosansFamily,
+            fontWeight = FontWeight.SemiBold
+
+        )
 
         Spacer(Modifier.weight(1f))
 
@@ -268,13 +287,16 @@ fun Loginemailandpassword(
         Box(
             modifier = Modifier
                 .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            colorResource(R.color.red).copy(alpha = 0.4f),
-                            colorResource(R.color.red).copy(alpha = 0.1f),
-
+                    if (phoneNumber.isEmpty() && password.isEmpty()) {
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                colorResource(R.color.red).copy(alpha = 0.4f),
+                                colorResource(R.color.red).copy(alpha = 0.1f)
+                            )
                         )
-                    ),
+                    } else {
+                        SolidColor(colorResource(R.color.red))
+                    },
                     shape = RoundedCornerShape(60.dp)
                 )
                 .fillMaxSize(),
@@ -282,7 +304,7 @@ fun Loginemailandpassword(
         ) {
             Text(
                 text = stringResource(R.string.login),
-                color = Color.White, 
+                color = Color.White,
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
@@ -296,12 +318,12 @@ fun Loginemailandpassword(
     TermsAndcondition { LoginEvent.terms }
 
 
-
 }
+
 @Composable
 fun SignUp(
-    signUp:()->Unit
-){
+    signUp: () -> Unit
+) {
     val fullText = stringResource(R.string.noaccount)
     val clickable = stringResource(R.string.clickhere)
 
@@ -310,10 +332,15 @@ fun SignUp(
         append(fullText.substringBefore(clickable))
         append("  ")
         pushStringAnnotation(
-            tag= "Sign Up",
+            tag = "Sign Up",
             annotation = "sign_up"
         )
-        withStyle(style = SpanStyle( color = colorResource( R.color.red), textDecoration = TextDecoration.Underline)){
+        withStyle(
+            style = SpanStyle(
+                color = colorResource(R.color.red),
+                textDecoration = TextDecoration.Underline
+            )
+        ) {
             append(clickable)
         }
         pop()
@@ -325,26 +352,27 @@ fun SignUp(
             Color.Black,
             fontSize = 13.33.sp,
             fontFamily = nunitosansFamily,
-            fontWeight = FontWeight.Normal),
+            fontWeight = FontWeight.Normal
+        ),
 
         onClick = { offset ->
             annotatedString
                 .getStringAnnotations("sign_up", start = offset, end = offset)
-                .firstOrNull().let { annotation->
+                .firstOrNull().let { annotation ->
                     if (annotation != null) {
-                        if (annotation.item == "sign_up"){
-                           signUp()
+                        if (annotation.item == "sign_up") {
+                            signUp()
                         }
                     }
                 }
-        }    )
+        })
 }
 
 
 @Composable
 fun TermsAndcondition(
-    termsOnCLicked:()->Unit
-){
+    termsOnCLicked: () -> Unit
+) {
     val fullText = stringResource(R.string.terms)
     val clickable = stringResource(R.string.condition)
 
@@ -353,10 +381,15 @@ fun TermsAndcondition(
         append(fullText.substringBefore(clickable))
         append("  ")
         pushStringAnnotation(
-            tag= "TermsAndCondition",
+            tag = "TermsAndCondition",
             annotation = "Terms ANd Condition "
         )
-        withStyle(style = SpanStyle( color = colorResource( R.color.red), textDecoration = TextDecoration.Underline)){
+        withStyle(
+            style = SpanStyle(
+                color = colorResource(R.color.red),
+                textDecoration = TextDecoration.Underline
+            )
+        ) {
             append(clickable)
         }
         pop()
@@ -368,27 +401,29 @@ fun TermsAndcondition(
             Color.Black,
             fontSize = 13.33.sp,
             fontFamily = nunitosansFamily,
-            fontWeight = FontWeight.Normal),
+            fontWeight = FontWeight.Normal
+        ),
 
         onClick = { offset ->
             annotatedString
                 .getStringAnnotations("TermsAndCondition", start = offset, end = offset)
-                .firstOrNull().let { annotation->
+                .firstOrNull().let { annotation ->
                     if (annotation != null) {
-                        if (annotation.item == "sign_up"){
+                        if (annotation.item == "sign_up") {
                             termsOnCLicked()
                         }
                     }
                 }
-        }    )
+        })
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun DualButton(
-    loginSwitch:Boolean,
-    signUpSwitch : Boolean
-){
+    loginSwitch: Boolean,
+    signUpSwitch: Boolean
+) {
 
     Row(
         Modifier
@@ -399,73 +434,76 @@ fun DualButton(
             .border(
                 width = 2.dp,
                 color = colorResource(R.color.red).copy(alpha = 0.3f),
-                shape = RoundedCornerShape(30.dp))
+                shape = RoundedCornerShape(30.dp)
+            )
 
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
                         colorResource(R.color.red).copy(alpha = 0.2f),
-                        colorResource(R.color.red).copy(alpha = 0.2f)))),
+                        colorResource(R.color.red).copy(alpha = 0.2f)
+                    )
+                )
+            ),
 
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
 
         val BaseModifiers = Modifier
             .width(60.dp)
             .height(24.dp)
             .clip(RoundedCornerShape(15.dp))
 
-            Box(
-                modifier = BaseModifiers
-                    .background(if (loginSwitch)colorResource(R.color.red)else Color.Transparent)
-                    .clickable { },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.Login),
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 11.11.sp,
-                    color = Color.White,
-                    fontFamily = nunitosansFamily,
-                    modifier = Modifier.padding(0.dp)
+
+        Box(
+            modifier = BaseModifiers
+                .background(if (loginSwitch) colorResource(R.color.red) else Color.Transparent)
+                .clickable { },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.Login),
+                fontWeight = FontWeight.Normal,
+                fontSize = 11.11.sp,
+                color = Color.White,
+                fontFamily = nunitosansFamily,
+                modifier = Modifier.padding(0.dp)
+            )
+        }
+
+
+
+        Box(
+            modifier = BaseModifiers
+                .background(if (signUpSwitch) colorResource(R.color.red) else Color.Transparent)
+                .clickable { },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                stringResource(R.string.signup),
+                fontWeight = FontWeight.Normal,
+                fontSize = 11.11.sp,
+                fontFamily = nunitosansFamily,
+
                 )
-            }
-
-
-
-            Box(
-                modifier = BaseModifiers
-                    .background(if (signUpSwitch) colorResource(R.color.red)else Color.Transparent)
-                    .clickable { }
-                ,
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    stringResource(R.string.signup),
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 11.11.sp,
-                    fontFamily = nunitosansFamily,
-
-                    )
-            }}
+        }
+    }
 
 }
 
 
-
-
 @Preview
 @Composable
-fun previewCreateAccount(){
+fun previewCreateAccount() {
     MobileCashAppTheme {
 
-        val viewmodel : MobileCahAppViewModel = hiltViewModel()
+        val viewmodel: MobileCahAppViewModel = hiltViewModel()
         val state = viewmodel.createAccountUiState.collectAsState()
-            Login(
-                state.value,
-                viewmodel::OnEvent
-            )
+        Login(
+            state.value,
+            viewmodel::OnEvent
+        )
 
     }
 }

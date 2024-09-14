@@ -11,7 +11,7 @@
     <string name="onboardingthreeText">No internet? No Problem! Use Mobile Cash with just a SIM card</string>
     <string name="LoginText">Welcome to Mobile Cash</string>
     <string name="Loginsubtitle">Experience seamless transactions\nwith Mobile Cash.</string>
-    <string name="enter_email">Enter Email</string>
+    <string name="enter_phone">Enter PhoneNumber</string>
     <string name="enter_password">Enter Password</string>
     <string name="forget_password">Forget Password?</string>
     <string name="remember_password">Remember Password</string>
