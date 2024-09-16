@@ -1,6 +1,5 @@
 package com.example.mobilecashapp.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
@@ -59,9 +57,8 @@ import com.example.mobilecashapp.ui.theme.nunitosansFamily
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
 
 @Composable
-fun Login(
-    state: LoginUiState,
-    event: (LoginEvent) -> Unit
+fun SignUp(
+    state: SignUpUiState, event: (SignUpEvent) -> Unit
 ) {
 
     Column(
@@ -74,26 +71,22 @@ fun Login(
     ) {
         CommonHeader(
             text1 = stringResource(R.string.LoginText),
-            text2 =  stringResource(R.string.Loginsubtitle)
+            text2 =  stringResource(R.string.SignUpSubtitle)
         )
-
         Spacer(Modifier.height(32.dp))
-        DualButton(
-        )
+        DualSIgnUpButton()
 
         Spacer(Modifier.height(24.dp))
 
-        loginemailandpassword(
-            state,
-            onValueChange = event
+        SignUpemailandpassword(
+            state = state, onValueChange = event
         )
     }
 
 }
 
-
 @Composable
-fun DualButton(
+fun DualSIgnUpButton(
 ) {
 
     Row(
@@ -126,12 +119,14 @@ fun DualButton(
             .height(24.dp)
             .clip(RoundedCornerShape(15.dp))
 
+        Constants.loginSwitch = false
+        Constants.signUpSwitch=true
+
 
         Box(
             modifier = BaseModifiers
                 .background(if (Constants.loginSwitch) colorResource(R.color.red) else Color.Transparent)
-                .clickable { },
-            contentAlignment = Alignment.Center
+                .clickable { }, contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(R.string.Login),
@@ -148,14 +143,13 @@ fun DualButton(
         Box(
             modifier = BaseModifiers
                 .background(if (Constants.signUpSwitch) colorResource(R.color.red) else Color.Transparent)
-                .clickable { },
-            contentAlignment = Alignment.Center
+                .clickable { }, contentAlignment = Alignment.Center
         ) {
             Text(
                 stringResource(R.string.signup),
                 fontWeight = FontWeight.Normal,
-                fontSize = 11.11.sp,
                 color = Color.White,
+                fontSize = 11.11.sp,
                 fontFamily = nunitosansFamily,
 
                 )
@@ -165,36 +159,78 @@ fun DualButton(
 }
 
 @Composable
-fun loginemailandpassword(
-    state: LoginUiState,
-    onValueChange: (LoginEvent) -> Unit,
+fun SignUpemailandpassword(
+    state: SignUpUiState,
+    onValueChange: (SignUpEvent) -> Unit,
 ) {
+
+
     OutlinedTextField(
-        value = state.phoneNumber,
+        value = state.Name,
         onValueChange = {
-            onValueChange(LoginEvent.OnEmailChanged(it))
+            onValueChange(SignUpEvent.OnNameChanged(it))
         },
         Modifier
             .width(350.dp)
             .height(52.dp),
-        label = { Text(stringResource(R.string.enter_phone)) },
+        label = { Text(stringResource(R.string.your_name)) },
         shape = RoundedCornerShape(60.dp),
         leadingIcon = {
             Icon(
-                painterResource(R.drawable.phone),
+                painterResource(R.drawable.user),
                 contentDescription = "Phone",
                 tint = colorResource(R.color.red)
             )
         },
+        )
+
+    Spacer(Modifier.height(16.dp))
+
+
+    OutlinedTextField(value = state.phoneNumber,
+        onValueChange = {
+            onValueChange(SignUpEvent.OnPhoneChanged(it))
+        },
+        Modifier
+            .width(350.dp)
+            .height(52.dp),
+        label = { Text(stringResource(R.string.enter_yourPhoneNumber)) },
+        shape = RoundedCornerShape(60.dp),
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.phone),
+                contentDescription = "Password",
+                tint = colorResource(R.color.red)
+            )
+        })
+
+
+    Spacer(Modifier.height(16.dp))
+
+
+    OutlinedTextField(value = state.password,
+        onValueChange = { onValueChange(SignUpEvent.OnPasswordChanged(it)) },
+        Modifier
+            .width(350.dp)
+            .height(52.dp),
+        label = { Text(stringResource(R.string.enter_yourPassword)) },
+        shape = RoundedCornerShape(60.dp),
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.key),
+                contentDescription = "Password",
+                tint = colorResource(R.color.red)
+            )
+        },
         trailingIcon = {
-            val icon=  if (state.passwordVisible){
-                painterResource(R.drawable.showandhide)
-            }
-            else{
+           val icon=  if (state.passwordVisible){
+               painterResource(R.drawable.showandhide)
+           }
+           else{
                 painterResource(R.drawable.baseline_remove_red_eye_24)
-            }
+           }
             IconButton(
-                onClick ={ onValueChange(LoginEvent.TogglePasswordVisibility)}
+                onClick ={ onValueChange(SignUpEvent.TogglePasswordVisibility)}
             ) {
                 Icon(
                     icon,
@@ -204,18 +240,18 @@ fun loginemailandpassword(
         },
         visualTransformation = if (state.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
 
+        )
 
-    )
+
     Spacer(Modifier.height(16.dp))
-    OutlinedTextField(
-        value = state.password,
-        onValueChange = {
-            onValueChange(LoginEvent.OnPasswordChanged(it))
-        },
+
+
+    OutlinedTextField(value = state.confirmPassword,
+        onValueChange = { onValueChange(SignUpEvent.OnConfirmPassword(it)) },
         Modifier
             .width(350.dp)
             .height(52.dp),
-        label = { Text(stringResource(R.string.enter_password)) },
+        label = { Text(stringResource(R.string.confirm_yourPassword)) },
         shape = RoundedCornerShape(60.dp),
         leadingIcon = {
             Icon(
@@ -232,7 +268,7 @@ fun loginemailandpassword(
                 painterResource(R.drawable.baseline_remove_red_eye_24)
             }
             IconButton(
-                onClick ={ onValueChange(LoginEvent.TogglePasswordVisibility)}
+                onClick ={ onValueChange(SignUpEvent.TogglePasswordVisibility)}
             ) {
                 Icon(
                     icon,
@@ -241,57 +277,23 @@ fun loginemailandpassword(
             }
         },
         visualTransformation = if (state.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-
-
     )
 
+    Spacer(Modifier.height(20.dp))
 
-    Row(
-        Modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
+    LoginLink { onValueChange(SignUpEvent.login) }
 
-        Checkbox(
-            checked = state.onRememberPasswordchecked,
-            onCheckedChange = { onValueChange(LoginEvent.OnRememberPassword(state.onRememberPasswordchecked)) },
-            Modifier
-                .width(14.dp)
-                .height(14.dp)
-                .padding(top = 12.dp,end=6.dp),
-            colors = CheckboxDefaults.colors(
-                checkedColor = colorResource(R.color.red)
-            )
-        )
-        Spacer(Modifier.width(8.dp))
+    CheckTermsAndcondition(state = state,
+        toLoginPage = { onValueChange(SignUpEvent.login) },
+        onValueChange = { onValueChange(SignUpEvent.OnTermsAcceptedChanged(state.SignUpchecked)) })
 
-        Text(
-            stringResource(R.string.remember_password),
-            fontSize = 11.11.sp,
-            fontFamily = nunitosansFamily,
-            fontWeight = FontWeight.SemiBold
-
-        )
-
-        Spacer(Modifier.weight(1f))
-
-        Text(
-            stringResource(R.string.forget_password),
-            fontSize = 13.33.sp,
-            fontFamily = nunitosansFamily,
-            fontWeight = FontWeight.Normal,
-            color = colorResource(R.color.red)
-
-        )
-    }
+    Spacer(Modifier.height(20.dp))
+    
 
     Spacer(Modifier.height(20.dp))
 
-
-    SignUp { onValueChange(LoginEvent.signUp) }
-
-    Spacer(Modifier.height(20.dp))
     Button(
-        onClick = { onValueChange(LoginEvent.login) },
+        onClick = { onValueChange(SignUpEvent.login) },
         modifier = Modifier
             .width(350.dp)
             .height(52.dp)
@@ -300,10 +302,10 @@ fun loginemailandpassword(
                 color = colorResource(R.color.red).copy(alpha = 0.3f),
                 shape = RoundedCornerShape(60.dp)
             ),
+        enabled = state.phoneNumber.isNotEmpty() && state.password.isNotEmpty() && state.confirmPassword.isNotEmpty(),
         shape = RoundedCornerShape(60.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = Color.White
+            containerColor = Color.Transparent, contentColor = Color.White
         ),
         contentPadding = PaddingValues()
     ) {
@@ -319,11 +321,9 @@ fun loginemailandpassword(
                         )
                     } else {
                         SolidColor(colorResource(R.color.red))
-                    },
-                    shape = RoundedCornerShape(60.dp)
+                    }, shape = RoundedCornerShape(60.dp)
                 )
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+                .fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(R.string.login),
@@ -344,32 +344,29 @@ fun loginemailandpassword(
 }
 
 @Composable
-fun SignUp(
-    signUp: () -> Unit
+fun LoginLink(
+    login: () -> Unit
 ) {
-    val fullText = stringResource(R.string.noaccount)
-    val clickable = stringResource(R.string.clickhere)
+    val fullText = stringResource(R.string.alreadyRegistered)
+    val clickable = stringResource(R.string.clickheretoLogin)
 
 
     val annotatedString = buildAnnotatedString {
         append(fullText.substringBefore(clickable))
         append("  ")
         pushStringAnnotation(
-            tag = "Sign Up",
-            annotation = "sign_up"
+            tag = "Login", annotation = "login"
         )
         withStyle(
             style = SpanStyle(
-                color = colorResource(R.color.red),
-                textDecoration = TextDecoration.Underline
+                color = colorResource(R.color.red), textDecoration = TextDecoration.Underline
             )
         ) {
             append(clickable)
         }
         pop()
     }
-    ClickableText(
-        text = annotatedString,
+    ClickableText(text = annotatedString,
 
         style = TextStyle(
             Color.Black,
@@ -379,12 +376,11 @@ fun SignUp(
         ),
 
         onClick = { offset ->
-            annotatedString
-                .getStringAnnotations("sign_up", start = offset, end = offset)
+            annotatedString.getStringAnnotations("login", start = offset, end = offset)
                 .firstOrNull().let { annotation ->
                     if (annotation != null) {
-                        if (annotation.item == "sign_up") {
-                            signUp()
+                        if (annotation.item == "login") {
+                            login()
                         }
                     }
                 }
@@ -393,68 +389,91 @@ fun SignUp(
 
 
 @Composable
-fun TermsAndcondition(
-    termsOnCLicked: () -> Unit
+fun CheckTermsAndcondition(
+    toLoginPage: () -> Unit, state: SignUpUiState, onValueChange: (SignUpEvent) -> Unit
 ) {
-    val fullText = stringResource(R.string.terms)
-    val clickable = stringResource(R.string.condition)
+    val beforeText = stringResource(R.string.signupTerms)
+    val clickable = stringResource(R.string.signupTermsLinkText)
+    val afterText = stringResource(R.string.signupCOndition)
 
 
     val annotatedString = buildAnnotatedString {
-        append(fullText.substringBefore(clickable))
+        append(beforeText.substringBefore(clickable))
         append("  ")
+
         pushStringAnnotation(
-            tag = "TermsAndCondition",
-            annotation = "Terms ANd Condition "
+            tag = "SignUpTermsAndCondition", annotation = "SignUp Terms And Condition "
         )
         withStyle(
             style = SpanStyle(
                 color = colorResource(R.color.red),
-                textDecoration = TextDecoration.Underline
             )
         ) {
             append(clickable)
-        }
+            }
+
         pop()
+
+        append(" ")
+        append(afterText)
     }
-    ClickableText(
-        text = annotatedString,
 
-        style = TextStyle(
-            Color.Black,
-            fontSize = 13.33.sp,
-            fontFamily = nunitosansFamily,
-            fontWeight = FontWeight.Normal
-        ),
+    Row(
+        Modifier.padding(16.dp), horizontalArrangement = Arrangement.Center
+    ) {
 
-        onClick = { offset ->
-            annotatedString
-                .getStringAnnotations("TermsAndCondition", start = offset, end = offset)
-                .firstOrNull().let { annotation ->
-                    if (annotation != null) {
-                        if (annotation.item == "sign_up") {
-                            termsOnCLicked()
+        Checkbox(
+            checked = state.SignUpchecked,
+            onCheckedChange = { onValueChange(SignUpEvent.OnTermsAcceptedChanged(it)) },
+            Modifier
+                .width(14.dp)
+                .height(14.dp)
+                .padding(top = 12.dp,end=6.dp),
+            colors = CheckboxDefaults.colors(
+                checkedColor = colorResource(R.color.red)
+            )
+        )
+
+        Spacer(Modifier.width(8.dp))
+
+        ClickableText(text = annotatedString,
+
+            style = TextStyle(
+                Color.Black,
+                fontSize = 11.11.sp,
+                fontFamily = nunitosansFamily,
+                fontWeight = FontWeight.Normal
+            ),
+
+            onClick = { offset ->
+                annotatedString.getStringAnnotations(
+                        "SignUpTermsAndCondition",
+                        start = offset,
+                        end = offset
+                    ).firstOrNull().let { annotation ->
+                        if (annotation != null) {
+                            if (annotation.item == "SignUpTermsAndCondition") {
+                                toLoginPage()
+                            }
                         }
                     }
-                }
-        })
+            })
+
+    }
+
+
 }
-
-
-
-
 
 
 @Preview
 @Composable
-fun previewCreateAccount() {
+fun previewsignupAccount() {
     MobileCashAppTheme {
 
         val viewmodel: MobileCahAppViewModel = hiltViewModel()
-        val state = viewmodel.createAccountUiState.collectAsState()
-        Login(
-            state.value,
-            viewmodel::OnEvent
+        val state = viewmodel.signUpUiState.collectAsState()
+        SignUp(
+            state.value, viewmodel::OnSignupEvent
         )
 
     }

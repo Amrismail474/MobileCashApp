@@ -11,6 +11,7 @@
     <string name="onboardingthreeText">No internet? No Problem! Use Mobile Cash with just a SIM card</string>
     <string name="LoginText">Welcome to Mobile Cash</string>
     <string name="Loginsubtitle">Experience seamless transactions\nwith Mobile Cash.</string>
+    <string name="SignUpSubtitle">Let’s Create an Account</string>
     <string name="enter_phone">Enter PhoneNumber</string>
     <string name="enter_password">Enter Password</string>
     <string name="forget_password">Forget Password?</string>
@@ -23,4 +24,21 @@
     <string name="Login">Login</string>
     <string name="terms">By signing up, you agree to our</string>
     <string name="condition">Terms of service\nand Privacy policy</string>
+    <string name="successText">Logged In\nSuccessfully</string>
+    <string name="errorText">Incoorect PhoneNumber or Password</string>
+    <string name="okay">Okay</string>
+    <string name="your_name">Your Name</string>
+    <string name="enter_yourPhoneNumber">Enter Your Phone Number</string>
+    <string name="enter_yourPassword">Enter Your Password</string>
+    <string name="confirm_yourPassword">Confirm Your Password</string>
+    <string name="alreadyRegistered">ALready Registered?</string>
+    <string name="clickheretoLogin">Click Here To Login</string>
+    <string name="signupTerms">By agreeing to the</string>
+    <string name="signupTermsLinkText">Terms and Conditions</string>
+    <string name="signupCOndition">You are entering\ninto legally binding contract with the service provider.</string>
+    <string name="ForgetpasswordText">Forget Password</string>
+    <string name="Forgetpasswordsubtitle">Enter your email account to reset password</string>
+    <string name="continu">Continue</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
