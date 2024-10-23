@@ -8,6 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#E80101</color>
+    <color name="blue">#0B3399</color>
     <color name="ash">#898A8D</color>
-    <color name="Loginblack">#010B1F</color>
+    <color name="AppBlack">#010B1F</color>
+    <color name="background">#F3F6FF</color>
+    <color name="Pgreen">#26E367</color>
+    <color name="TransactionAsh">#B3B6BC</color>
+    <color name="otpdot">#D1D1D6</color>
+
 </resources>

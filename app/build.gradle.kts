@@ -62,6 +62,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.animation.core.android)
+    implementation(libs.androidx.animation.core.android)
+    implementation(libs.androidx.foundation.layout.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -98,4 +103,15 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     //implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+
+    //coil
+    implementation(libs.io.coil.kt.coil.compose)
+
+    //navigation
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+
 }
