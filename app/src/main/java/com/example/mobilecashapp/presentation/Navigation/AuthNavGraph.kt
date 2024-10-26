@@ -20,9 +20,12 @@ import com.example.mobilecashapp.presentation.constants.Screen
 import com.example.mobilecashapp.presentation.viewmodel.SignUpViewModel
 import com.example.mobilecashapp.presentation.ui.ForgetPassword
 import com.example.mobilecashapp.presentation.ui.Login
+import com.example.mobilecashapp.presentation.ui.Otp
 import com.example.mobilecashapp.presentation.ui.ReAuthentication
 import com.example.mobilecashapp.presentation.ui.SignUp
 import com.example.mobilecashapp.presentation.ui.TermsAndCondition
+import com.example.mobilecashapp.presentation.viewmodel.MobileCahAppViewModel
+import com.example.mobilecashapp.presentation.viewmodel.OtpViewModel
 
 fun NavGraphBuilder.authGraph(
 
@@ -77,7 +80,7 @@ fun NavGraphBuilder.authGraph(
         }
 
         composable(
-            route= Screen.Terms.route,
+            route= Screen.AuthTerms.route,
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { 300 }, animationSpec = tween(600)) + fadeIn(animationSpec = tween(600))
             },
@@ -114,7 +117,7 @@ fun NavGraphBuilder.authGraph(
             val viewmodel: ForgetPasswordViewModel = hiltViewModel()
             val state = viewmodel.forgetpassword.collectAsState()
 
-                ForgetPassword(state.value,viewmodel::forgetPasswordEvent)
+                ForgetPassword(state.value,viewmodel::forgetPasswordEvent,navController)
             }
 
 
@@ -138,6 +141,28 @@ fun NavGraphBuilder.authGraph(
 
             ReAuthentication(state.value,viewmodel::reAuthenticationEvent,navController)
 
+        }
+
+        composable(
+            route = Screen.Otp.route,
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { 300 }, animationSpec = tween(600)) + fadeIn(animationSpec = tween(600))
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { -300 }, animationSpec = tween(600)) + fadeOut(animationSpec = tween(600))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -300 }, animationSpec = tween(600)) + fadeIn(animationSpec = tween(600))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { 300 }, animationSpec = tween(600)) + fadeOut(animationSpec = tween(600))
+            }
+        ){
+            val viewmodel: OtpViewModel = hiltViewModel()
+            val state = viewmodel.otp.collectAsState()
+
+
+            Otp(state.value,viewmodel::Onevent)
         }
 
 

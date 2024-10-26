@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,6 +39,32 @@ import androidx.compose.ui.unit.sp
 import com.example.mobilecashapp.R
 import com.example.mobilecashapp.presentation.constants.User
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
+
+
+
+@Composable
+fun EditProfile(){
+    Scaffold { paddingValues->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.background))
+                .padding(paddingValues)
+                .padding(horizontal = 6.dp, vertical = 2.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ){
+            val user = User("AL-HASSAN ","SOLATE",
+                R.drawable.ellipse_9,"hassansolate202@gmail.com","08052377416","0431609284","18,952.7")
+            EditProfileTopbar()
+            Spacer(Modifier.height(36.dp))
+            EditProfileProfilePicture(user)
+            Spacer(Modifier.height(56.dp))
+            ProfileDetail(user)
+
+        }
+    }
+}
 
 @Composable
 fun EditProfileTopbar(

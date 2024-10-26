@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,6 +33,28 @@ import androidx.compose.ui.unit.sp
 import com.example.mobilecashapp.R
 import com.example.mobilecashapp.ui.theme.nunitosansFamily
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
+
+@Composable
+fun Setting(){
+    Scaffold { paddingValues->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.background))
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+
+            SettingTopbar()
+            SettingContainer()
+            
+        }
+    }
+}
+
+
 
 @Composable
 fun SettingTopbar(
@@ -181,8 +205,12 @@ fun SettingTemplate(
 @Preview
 fun SettingsPreview(){
     Column (
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(R.color.background))
+            .padding(horizontal = 16.dp, vertical = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ){
         SettingTopbar()
         SettingContainer()

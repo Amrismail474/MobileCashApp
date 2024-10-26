@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -75,26 +76,31 @@ fun Otp(
         "08052377416","0431609284","18,952.7")
 
     val masked = maskOtpPhoneNumber(user.phone)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(R.color.background))
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(30.dp)
-    ) {
-        CommonHeader(
-            text1 = stringResource(R.string.VerificationText),
-            text2 =  stringResource(R.string.Verificatonsubtitle,masked),
-            isextrawords = true
-        )
+    Scaffold {innerPadding->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.background))
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(30.dp)
+        ) {
+            CommonHeader(
+                text1 = stringResource(R.string.VerificationText),
+                text2 =  stringResource(R.string.Verificatonsubtitle,masked),
+                isextrawords = true
+            )
 
-        OtpBox(state,event)
-        Spacer(Modifier.height(30.dp))
-        OtpButton(state)
-        OtpLink()
-        OtpKeypad(state, event)
+            OtpBox(state,event)
+            Spacer(Modifier.height(30.dp))
+            OtpButton(state)
+            OtpLink()
+            OtpKeypad(state, event)
+        }
+
     }
+
 
     }
 
@@ -190,25 +196,27 @@ fun OtpButton(
                 containerColor = Color.Transparent,
                 contentColor = Color.White
             ),
-            contentPadding = PaddingValues()
+            contentPadding = PaddingValues(),
+            enabled = state.otp.length==4
         ) {
             Box(
                 modifier = Modifier
                     .background(
                         if (state.otp.length == 4) {
+                            SolidColor(colorResource(R.color.red))
+                        } else {
                             Brush.horizontalGradient(
                                 colors = listOf(
                                     colorResource(R.color.red).copy(alpha = 0.7f),
                                     colorResource(R.color.red).copy(alpha = 0.7f)
                                 )
                             )
-                        } else {
-                            SolidColor(colorResource(R.color.red))
                         },
                         shape = RoundedCornerShape(60.dp)
                     )
                     .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
+
             ) {
                 Text(
                     text = stringResource(R.string.verifyNow),
@@ -293,7 +301,7 @@ fun OtpKeyButton(
             .clip(RoundedCornerShape(15.dp))
             .background(colorResource(R.color.white))
             .border(1.dp,
-                if(state.isclicked)Color.Red else colorResource(R.color.ash),
+                if(state.isclicked)Color.Red else Color.Unspecified,
                 RoundedCornerShape(15.dp))
             .clickable {
                 onClick()

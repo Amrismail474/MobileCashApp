@@ -22,6 +22,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,14 +40,67 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.mobilecashapp.R
+import com.example.mobilecashapp.presentation.constants.Screen
 import com.example.mobilecashapp.presentation.constants.User
+import com.example.mobilecashapp.presentation.events.ProfileEvent
+import com.example.mobilecashapp.presentation.state.ProfileUiState
+import com.example.mobilecashapp.presentation.viewmodel.MobileCahAppViewModel
 import com.example.mobilecashapp.ui.theme.nunitosansFamily
 import com.example.mobilecashapp.ui.theme.poppinsFontFamily
 
 @Composable
-fun Profile(navController: NavController){
+fun Profile(
+    state: ProfileUiState,
+    event: (ProfileEvent)->Unit,
+    navController: NavController){
+
+    LaunchedEffect(state.isEditProfileClicked) {
+        if(state.isEditProfileClicked){
+            navController.navigate(Screen.EditProfile.route){
+                popUpTo(Screen.Profile.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(state.isSettingClicked) {
+        if(state.isSettingClicked){
+            navController.navigate(Screen.Setting.route){
+                popUpTo(Screen.Profile.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(state.isHelpAndSupportClicked) {
+        if(state.isHelpAndSupportClicked){
+            navController.navigate(Screen.HelpAndSupport.route){
+                popUpTo(Screen.Profile.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(state.isTermsAndConditionClicked) {
+        if(state.isTermsAndConditionClicked){
+            navController.navigate(Screen.ProfileTerms.route){
+                popUpTo(Screen.Profile.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
+
+
+
     Scaffold(topBar = {GeneralTopAppBar(stringResource(R.string.profile), navController)}) { paddingValues->
 
         Column(
@@ -60,39 +115,9 @@ fun Profile(navController: NavController){
 
             Spacer(Modifier.height(36.dp))
             ProfileProfilePicture(user)
-            ProfileCustomization()
+            ProfileCustomization(state, event)
         }
 } }
-//@Composable
-//fun ProfileTopbar(
-//    modifier: Modifier = Modifier
-//){
-//
-//    Row(
-//        modifier
-//            .fillMaxWidth()
-//            .padding(top=58.dp)
-//            .background(colorResource(R.color.background)),
-//        verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.Center
-//    ) {
-//
-//        Box (
-//            contentAlignment = Alignment.TopCenter
-//        ){
-//
-//            Text(
-//                stringResource(R.string.profile),
-//                fontWeight = FontWeight.SemiBold,
-//                fontSize = 19.2.sp,
-//                color = colorResource(R.color.AppBlack),
-//                fontFamily = poppinsFontFamily,
-//            )
-//        }
-//
-//    }
-//
-//}
 
 @Composable
 fun ProfileProfilePicture(
@@ -160,7 +185,10 @@ fun ProfileProfilePicture(
 
 
 @Composable
-fun ProfileCustomization(){
+fun ProfileCustomization(
+    state: ProfileUiState,
+    event: (ProfileEvent)->Unit
+){
     Column (
         Modifier.padding(top=16.dp),
         verticalArrangement =Arrangement.Bottom,
@@ -170,34 +198,40 @@ fun ProfileCustomization(){
         ProfileTemplate(
             icon= painterResource(R.drawable.frame),
             title = stringResource(R.string.editProfile),
-            subtitle = stringResource(R.string.editProfileInfo)
+            subtitle = stringResource(R.string.editProfileInfo),
+            onCLicked = {event(ProfileEvent.OnEditProfileClicked)}
         )
 
         ProfileTemplate(
             icon= painterResource(R.drawable.setting),
             title = stringResource(R.string.setting),
-            subtitle = stringResource(R.string.settingSubtitle)
+            subtitle = stringResource(R.string.settingSubtitle),
+            onCLicked = {event(ProfileEvent.OnSettingClicked)}
         )
         ProfileTemplate(
             icon= painterResource(R.drawable.moon),
             title = stringResource(R.string.Darkmode),
             subtitle = stringResource(R.string.Darkmodesubtitle),
-            isToggleButton = true
+            isToggleButton = true,
+            onCLicked = {event(ProfileEvent.OnDarkModeClicked)}
         )
         ProfileTemplate(
             icon= painterResource(R.drawable.headphones),
             title = stringResource(R.string.help),
-            subtitle = stringResource(R.string.helpsubtitle)
+            subtitle = stringResource(R.string.helpsubtitle),
+            onCLicked = {event(ProfileEvent.OnHelpAndSupportClicked)}
         )
         ProfileTemplate(
             icon= painterResource(R.drawable.shield_tick),
             title = stringResource(R.string.termsandcondition),
-            subtitle = stringResource(R.string.termsandconditionsubtitile)
+            subtitle = stringResource(R.string.termsandconditionsubtitile),
+            onCLicked = {event(ProfileEvent.OnTermsAndConditionClicked)}
         )
         ProfileTemplate(
             icon= painterResource(R.drawable.log_out),
             title = stringResource(R.string.signout),
-            subtitle = stringResource(R.string.signoutsubtitle)
+            subtitle = stringResource(R.string.signoutsubtitle),
+            onCLicked = {event(ProfileEvent.OnSignOutCLicked)}
         )
     }
 }
@@ -210,7 +244,8 @@ fun ProfileTemplate(
     icon:Painter,
     isToggleButton:Boolean=false,
     title:String,
-    subtitle:String
+    subtitle:String,
+    onCLicked:(ProfileEvent)->Unit
 )
 
     {
@@ -289,7 +324,9 @@ fun ProfileTemplate(
 
                     )
                 }else{
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        onCLicked(ProfileEvent.OnEditProfileClicked)
+                    }) {
                         Icon(
                             painterResource(R.drawable.halfarrow_right),
                             contentDescription = null
@@ -315,12 +352,15 @@ fun ProfilePreview(){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ){
-        val user = User("AL-HASSAN" ,"SOLATE",R.drawable.ellipse_9,
-            "hassansolate202@gmail.com","08052377416","0431609284","18,952.7")
-
-        Spacer(Modifier.height(36.dp))
-        ProfileProfilePicture(user)
-        ProfileCustomization()
+//        val user = User("AL-HASSAN" ,"SOLATE",R.drawable.ellipse_9,
+//            "hassansolate202@gmail.com","08052377416","0431609284","18,952.7")
+//
+//        val viewmodel: MobileCahAppViewModel = hiltViewModel()
+//        val state = viewmodel.loginUiState.collectAsState()
+//        val navController: NavController = rememberNavController()
+//        Spacer(Modifier.height(36.dp))
+//        ProfileProfilePicture(user)
+//        ProfileCustomization()
     }
 
 }

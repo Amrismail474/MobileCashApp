@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.mobilecashapp.R
+import com.example.mobilecashapp.presentation.constants.Screen
 import com.example.mobilecashapp.presentation.events.ForgetpasswordEvent
 import com.example.mobilecashapp.presentation.state.ForgetpasswordUiState
 import com.example.mobilecashapp.presentation.viewmodel.MobileCahAppViewModel
@@ -47,8 +51,30 @@ import com.example.mobilecashapp.ui.theme.poppinsFontFamily
 @Composable
 fun ForgetPassword(
     state: ForgetpasswordUiState,
-    event: (ForgetpasswordEvent) -> Unit
+    event: (ForgetpasswordEvent) -> Unit,
+    navController: NavController
 ){
+
+    LaunchedEffect(state.isContinueButtonCLicked) {
+        if(state.isContinueButtonCLicked){
+            navController.navigate(Screen.Otp.route){
+                popUpTo(Screen.ForgetPassword.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(state.isCancelButtonCLicked){
+        if(state.isCancelButtonCLicked){
+            navController.navigate(Screen.Login.route){
+                popUpTo(Screen.ForgetPassword.route){
+                    inclusive=true
+                }
+            }
+        }
+    }
+
     Scaffold { innerPadding->
 
         Column(
@@ -137,7 +163,8 @@ fun ForgetPasswordContent(
                 containerColor = Color.Transparent,
                 contentColor = Color.White
             ),
-            contentPadding = PaddingValues()
+            contentPadding = PaddingValues(),
+            enabled= state.phoneNumber.isEmpty()
         ) {
             Box(
                 modifier = Modifier
@@ -204,8 +231,8 @@ fun previewForgetPassword() {
 
         val viewmodel: MobileCahAppViewModel = hiltViewModel()
         val state = viewmodel.forgetpassword.collectAsState()
-
-        ForgetPassword(state.value,viewmodel::OnforgetPassword)
+        val navController: NavController = rememberNavController()
+        ForgetPassword(state.value,viewmodel::OnforgetPassword,navController)
     }
 }
 

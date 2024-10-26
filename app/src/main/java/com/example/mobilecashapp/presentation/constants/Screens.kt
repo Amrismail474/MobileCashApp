@@ -31,7 +31,8 @@ sealed class Screen(val route:String){
     data object  OnBoarding3: Screen("onboarding3")
     data object SignUp: Screen("sign_up")
     data object Login: Screen("login")
-    data object Terms: Screen("terms_and_condition")
+    data object AuthTerms: Screen("terms_and_condition")
+    data object ProfileTerms: Screen("terms_and_condition")
     data object ForgetPassword: Screen("forget_password")
     data object SuccessDialog: Screen("success_dialog")
     data object HomeScreen: Screen("home_screen")
@@ -43,5 +44,9 @@ sealed class Screen(val route:String){
     data object TransferSuccessful: Screen("transfer_Successful")
     data object TransferFailure: Screen("transfer_Failure")
     data object FailureDialog: Screen("failureDialog")
+    data object Otp : Screen("otp")
+    data object  EditProfile:Screen("editProfile")
+    data object Setting:Screen("screen")
+    data object HelpAndSupport:Screen("help")
 
 }

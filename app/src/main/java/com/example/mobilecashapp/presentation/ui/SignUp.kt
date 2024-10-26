@@ -72,8 +72,7 @@ fun SignUp(
     LaunchedEffect(state.isSignUpSuccessful) {
         Log.d("I'm here", state.isSignUpSuccessful.toString())
         if(state.isSignUpSuccessful){
-
-            navController.navigate(Screen.HomeScreen.route){
+            navController.navigate(Screen.ReAuthentication.route){
                 Log.d("I'm here", "Navigated")
 //                popUpTo(Screen.SignUp.route){
 //                    inclusive=true
